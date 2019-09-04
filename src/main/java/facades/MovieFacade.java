@@ -37,6 +37,7 @@ public class MovieFacade {
         }
     }
 
+    
     public List<MovieDTO> getAllMoviesDTO() {
         EntityManager em = getEntityManager();
         try {
