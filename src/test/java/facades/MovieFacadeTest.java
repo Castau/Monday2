@@ -4,6 +4,7 @@ import dto.MovieDTO;
 import utils.EMF_Creator;
 import entities.Movie;
 import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -75,7 +76,15 @@ public class MovieFacadeTest {
 
     @Test
     public void testGetMovieDTOByName() throws Exception {
-        MovieDTO exp = new MovieDTO(new Movie(2019, "Destroy the World 3", new String[]{"Boris Johnson", "Donald Trump", "Vladimir Putin", "Xi Jinping"}, 9.3));
+        ArrayList<MovieDTO> exp = new ArrayList();
+        exp.add(new MovieDTO(new Movie(2019, "Destroy the World 3", new String[]{"Boris Johnson", "Donald Trump", "Vladimir Putin", "Xi Jinping"}, 9.3)));
         assertEquals(exp, facade.getMovieDTOByName("Destroy the World 3"));
     }
+    
+    @Test
+    public void testGetMovieDTOById() throws Exception {
+        MovieDTO exp = new MovieDTO(new Movie(1989, "Terminator", new String[]{"Arnold Schwarzenegger"}, 8.7));
+        assertEquals(exp, facade.getMovieDTOById(3));
+    }
+    
 }

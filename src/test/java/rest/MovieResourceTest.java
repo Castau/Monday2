@@ -126,15 +126,28 @@ public class MovieResourceTest {
     }
 
     @Test
-    public void testOneMovie() throws Exception {
+    public void testMovieByName() throws Exception {
         given()
                 .contentType("application/json")
                 .get("/imdb/name/Destroy the World 3").then()
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
-                .body("name", equalTo("Destroy the World 3"))
-                .body("releaseYear", equalTo(2019))
-                .body("rating", is(9.3f))
-                .body("actors", contains("Boris Johnson", "Donald Trump", "Vladimir Putin", "Xi Jinping"));
+                .body("[0].name", equalTo("Destroy the World 3"))
+                .body("[0].releaseYear", equalTo(2019))
+                .body("[0].rating", is(9.3f))
+                .body("[0].actors", contains("Boris Johnson", "Donald Trump", "Vladimir Putin", "Xi Jinping"));
+    }
+    
+    @Test
+    public void testMovieById() throws Exception {
+        given()
+                .contentType("application/json")
+                .get("/imdb/id/2").then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .body("name", equalTo("Løvernes Konge"))
+                .body("releaseYear", equalTo(1994))
+                .body("rating", is(10.0f))
+                .body("actors", contains("Simba", "Nala", "Mufasa", "Timon", "Pumba", "Zarsu", "Scar"));
     }
 }

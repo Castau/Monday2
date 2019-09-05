@@ -79,17 +79,28 @@ public class MovieResource {
             return "{\"ERROR\":\" Movie not found\"}";
         }
     }
-
-    @POST
-    @Consumes({MediaType.APPLICATION_JSON})
-    public void create(Movie entity) {
-        throw new UnsupportedOperationException();
+    
+    @Path("/id/{id}")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public String getMovieById(@PathParam("id") long id) {
+        try {
+            return GSON.toJson(FACADE.getMovieDTOById(id));
+        } catch (Exception ex) {
+            return "{\"ERROR\":\" Movie not found\"}";
+        }
     }
-
-    @PUT
-    @Path("/{id}")
-    @Consumes({MediaType.APPLICATION_JSON})
-    public void update(Movie entity, @PathParam("id") int id) {
-        throw new UnsupportedOperationException();
-    }
+//
+//    @POST
+//    @Consumes({MediaType.APPLICATION_JSON})
+//    public void create(Movie entity) {
+//        throw new UnsupportedOperationException();
+//    }
+//
+//    @PUT
+//    @Path("/{id}")
+//    @Consumes({MediaType.APPLICATION_JSON})
+//    public void update(Movie entity, @PathParam("id") int id) {
+//        throw new UnsupportedOperationException();
+//    }
 }

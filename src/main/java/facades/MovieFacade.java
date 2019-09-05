@@ -52,10 +52,20 @@ public class MovieFacade {
         }
     }
 
-    public MovieDTO getMovieDTOByName(String name) throws Exception {
+    public List<MovieDTO> getMovieDTOByName(String name) throws Exception {
         EntityManager em = getEntityManager();
         try {
-            return em.createQuery("SELECT new dto.MovieDTO(m) FROM Movie m WHERE m.name = :name", MovieDTO.class).setParameter("name", name).getSingleResult();
+            return em.createQuery("SELECT new dto.MovieDTO(m) FROM Movie m WHERE m.name = :name", MovieDTO.class).setParameter("name", name).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public MovieDTO getMovieDTOById(long id) throws Exception {
+        EntityManager em = getEntityManager();
+        try {
+            Movie movie = em.find(Movie.class, id);
+            return new MovieDTO(movie);
         } finally {
             em.close();
         }
