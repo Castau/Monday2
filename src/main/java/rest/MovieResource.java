@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import entities.Movie;
 import utils.EMF_Creator;
 import facades.MovieFacade;
+import java.util.ArrayList;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -23,9 +25,33 @@ public class MovieResource {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     @GET
+    @Path("/data")
+    public String data() {
+        EntityManager em = EMF.createEntityManager();
+        ArrayList<Movie> allMovies = new ArrayList();
+        allMovies.add(new Movie(2019, "Destroy the World 3", new String[]{"Boris Johnson", "Donald Trump", "Vladimir Putin", "Xi Jinping"}, 9.3));
+        allMovies.add(new Movie(1994, "Løvernes Konge", new String[]{"Simba", "Nala", "Mufasa", "Timon", "Pumba", "Zarsu", "Scar"}, 10.0));
+        allMovies.add(new Movie(1989, "Terminator", new String[]{"Arnold Schwarzenegger"}, 8.7));
+        allMovies.add(new Movie(1932, "Gammel Dansk", new String[]{"Ove Sprogøe", "Dirch Passer", "Poul Reichhardt", "Thomas Eje"}, 4.6));
+        allMovies.add(new Movie(1932, "Top Fun", new String[]{"Obama", "John Cruise", "Val Gilmour"}, 3.3));
+        try {
+            for (Movie m : allMovies) {
+                em.getTransaction().begin();
+                em.persist(m);
+                em.getTransaction().commit();
+            }
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }
+        return "Movies created";
+    }
+    
+    @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String welcome() {
-        return "{\"Welcome to the \":\"International Movie Database\"}";
+        return "{\"Welcome\":\"To the International Movie Database\"}";
     }
 
     @Path("count")

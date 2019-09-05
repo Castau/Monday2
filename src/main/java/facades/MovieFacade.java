@@ -26,7 +26,7 @@ public class MovieFacade {
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-
+       
     public long getMovieCount() {
         EntityManager em = getEntityManager();
         try {
